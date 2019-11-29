@@ -12,6 +12,7 @@ int main()
 		bst.iterativePreorder();
 		bst.iterativePostorder();
 		bst.iterativeInorder();
+		bst.MorrisInorder();
 	}
 
 	std::cin.get();

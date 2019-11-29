@@ -103,8 +103,8 @@ void BST<T>::preorder(Node *pn)
 	while (pn != 0)
 	{
 		visit(pn);
-		inorder(pn->left);
-		inorder(pn->right);
+		preorder(pn->left);
+		preorder(pn->right);
 	}
 }
 
@@ -113,8 +113,8 @@ void BST<T>::postorder(Node *pn)
 {
 	while (pn != 0)
 	{
-		inorder(pn->left);
-		inorder(pn->right);
+		postorder(pn->left);
+		postorder(pn->right);
 		visit(pn);
 	}
 }
