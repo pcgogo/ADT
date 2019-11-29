@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <queue>
+#include <stack>
 
 template<class T>
 class BST
@@ -20,9 +21,9 @@ protected:
 	Node *root;
 	//void clear(Node *pn);
 	T * search(Node *pn, const T & t)const;
-	void preorder(Node *pn);
-	void inorder(Node *pn);
-	void postorder(Node *pn);
+	void preorder(Node *pn);									//前序树遍历VLR(递归实现)
+	void inorder(Node *pn);										//中序树遍历LVR(递归实现)
+	void postorder(Node *pn);									//后序树遍历LRV(递归实现)
 	virtual void visit(Node * pn){ std::cout << pn->el << std::endl; }
 
 public:
@@ -33,11 +34,11 @@ public:
 	void preorder(){ preorder(root); }
 	void inorder(){ inorder(root); }
 	void postorder(){ postorder(root); }
-	T * search(const T & t)const{ search(root, t); }
-	void breadthFirst();
-	void iterativePreorder();
-	void iterativeInorder();
-	void iterativePostorder();
+	T * search(const T & t)const{ return search(root, t); }
+	void breadthFirst();										//广度优先遍历（队列实现）
+	void iterativePreorder();									//前序树遍历VLR(非递归实现)
+	void iterativeInorder();									//中序树遍历VLR(非递归实现)
+	void iterativePostorder();									//后序树遍历VLR(非递归实现)
 	void MorrisInorder();
 	void insert(const T & t);
 	void deleteByMerging(Node *pn);
@@ -62,10 +63,11 @@ T* BST<T>::search(Node *pn, const T & t)const
 	return 0;
 }
 
+//广度优先遍历
 template<class T>
 void BST<T>::breadthFirst()
 {
-	std::queue<T> q;
+	std::queue<Node*> q;
 	Node *pn = root;
 	while (pn != 0)
 	{
@@ -83,9 +85,147 @@ void BST<T>::breadthFirst()
 	}
 }
 
+//深度优先遍历
+template<class T>
+void BST<T>::inorder(Node *pn)
+{
+	while (pn != 0)
+	{
+		inorder(pn->left);
+		visit(pn);
+		inorder(pn->right);
+	}
+}
 
+template<class T>
+void BST<T>::preorder(Node *pn)
+{
+	while (pn != 0)
+	{
+		visit(pn);
+		inorder(pn->left);
+		inorder(pn->right);
+	}
+}
 
+template<class T>
+void BST<T>::postorder(Node *pn)
+{
+	while (pn != 0)
+	{
+		inorder(pn->left);
+		inorder(pn->right);
+		visit(pn);
+	}
+}
 
+template<class T>
+void BST<T>::iterativePreorder()
+{
+	Node *p = root;
+	std::stack<Node*> s;
+	if (p != 0)
+	{
+		s.push(p);
+		while (!s.empty())
+		{
+			p = s.top();
+			s.pop();
+			visit(p);
+			if (p->left != 0)
+				s.push(p->left);
+			if (p->right != 0)
+				s.push(p->right);
+		}
+	}
+}
+
+template<class T>
+void BST<T>::iterativeInorder()
+{
+	Node *p = root;
+	std::stack<Node*> s;
+	while (p != 0)
+	{
+		while (p != 0)
+		{
+			if (p->right)
+				s.push(p->right);
+			s.push(p);
+			p = p->left;
+		}
+		p = s.top();
+		s.pop();
+		while ((!s.empty()) && p->right == 0)
+		{
+			visit(p);
+			p = s.top();
+			s.pop();
+		}
+		visit(p);
+		if (!s.empty())
+		{
+			p = s.top();
+			s.pop();
+		}
+		else
+			p = 0;
+	}
+}
+
+template<class T>
+void BST<T>::iterativePostorder()
+{
+	std::stack<Node*> s;
+	Node *p = root, *q = root;
+	while (p != 0)
+	{
+		for (; p->left != 0; p = p->left)
+			s.push(p);
+		while (p->right == 0 || p->right == q)
+		{
+			visit(p);
+			q = p;
+			if (s.empty())
+				return;
+			p = s.top();
+			s.pop();
+		}
+		s.push(p);
+		p = p->right;
+	}
+}
+
+template<class T>
+void BST<T>::MorrisInorder()
+{
+	Node *p = root, *temp;
+	while (p != 0)
+	{
+		if (p->left == 0)
+		{
+			visit(p);
+			p = p->right;
+		}
+		else
+		{
+			temp = p->left;
+			while (temp->right != 0 && temp->right != p)
+				temp = temp->right;
+			if (temp->right == 0)
+			{
+				temp->right = p;
+				p = p->left;
+			}
+			else
+			{
+				visit(p);
+				temp->right = 0;
+				p = p->right;
+			}
+		}
+	}
+}
 
 
 #endif

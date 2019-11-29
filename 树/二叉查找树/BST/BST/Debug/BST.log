@@ -1,4 +1,4 @@
-﻿生成启动时间为 2019/11/27 21:38:18。
+﻿生成启动时间为 2019/11/29 20:42:51。
      1>项目“E:\cpp_study\ADT\树\二叉查找树\BST\BST\BST.vcxproj”在节点 2 上(Build 个目标)。
      1>ClCompile:
          D:\VS2013\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
@@ -10,4 +10,4 @@
 
 生成成功。
 
-已用时间 00:00:01.25
+已用时间 00:00:01.08

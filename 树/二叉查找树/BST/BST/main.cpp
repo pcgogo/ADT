@@ -7,6 +7,11 @@ int main()
 
 	{
 		BST<int> bst;
+		bst.breadthFirst();
+		bst.search(1);
+		bst.iterativePreorder();
+		bst.iterativePostorder();
+		bst.iterativeInorder();
 	}
 
 	std::cin.get();
