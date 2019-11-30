@@ -6,7 +6,7 @@
 #include <stack>
 
 template<class T>
-class BST
+class BST														//二叉查找树
 {
 protected:
 	class Node
@@ -39,11 +39,11 @@ public:
 	void iterativePreorder();									//前序树遍历VLR(非递归实现)
 	void iterativeInorder();									//中序树遍历VLR(非递归实现)
 	void iterativePostorder();									//后序树遍历VLR(非递归实现)
-	void MorrisInorder();
+	void MorrisInorder();										//morris算法(不使用栈的遍历(中序))
 	void insert(const T & t);
-	void deleteByMerging(Node *pn);
+	void deleteByMerging(Node* &pn);							//合并删除
 	void findAndDeleteByMerging(const T & t);
-	void deleteBycopying(Node *pn);
+	void deleteBycopying(Node *pn);								//复制删除
 	void balance(T* pt, int, int);
 };
 
@@ -69,7 +69,7 @@ void BST<T>::breadthFirst()
 {
 	std::queue<Node*> q;
 	Node *pn = root;
-	while (pn != 0)
+	if (pn != 0)
 	{
 		q.push(pn);
 		while (!q.empty())
@@ -145,31 +145,20 @@ void BST<T>::iterativeInorder()
 {
 	Node *p = root;
 	std::stack<Node*> s;
-	while (p != 0)
+	while ((!s.empty()) || p)
 	{
-		while (p != 0)
+		if (p != 0)
 		{
-			if (p->right)
-				s.push(p->right);
 			s.push(p);
 			p = p->left;
 		}
-		p = s.top();
-		s.pop();
-		while ((!s.empty()) && p->right == 0)
-		{
-			visit(p);
-			p = s.top();
-			s.pop();
-		}
-		visit(p);
-		if (!s.empty())
-		{
-			p = s.top();
-			s.pop();
-		}
 		else
-			p = 0;
+		{
+			p = s.top();
+			s.pop();
+			visit(p);
+			p = p->right;
+		}
 	}
 }
 
@@ -227,5 +216,42 @@ void BST<T>::MorrisInorder()
 	}
 }
 
+template<class T>
+void BST<T>::insert(const T & t)
+{
+	Node *p = root, *prev = 0;
+	while (p != 0)
+	{
+		prev = p;
+		if (t < p->el)
+			p = p->left;
+		else
+			p = p->right;
+	}
+	if (root == 0)
+		root = new Node(t);
+	else if (t < prev->el)
+		prev->left = new Node(t);
+	else prev->right = new Node(t);
+}
 
+template<class T>
+void BST<T>::deleteByMerging(Node*& node)//注意：此处为引用，直接操作该指针
+{
+	Node* tmp = node;
+	if (!node->right)
+		node = node->left;
+	else if (!node->left)
+		node = node->right;
+	else//如果该节点有两个子节点
+	{
+		tmp = node->left;
+		while (tmp->right != 0)//找到左子树的最右节点
+			tmp = tmp->left;
+		tmp->right = node->right;//左子树最右节点作为右子树的父节点
+		tmp = node;
+		node = node->left;//重新建立连接
+	}
+	delete tmp;
+}
 #endif
