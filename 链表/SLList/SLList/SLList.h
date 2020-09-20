@@ -83,7 +83,7 @@ void SLList<T>::addToTail(T el)
 }
 
 template <typename T>
-T SLList<T>::deleteFromHead()
+T SLList<T>::deleteFromHead()	//有问题:head为空指针时
 {
 	T el = head->info;
 	Node* temp = head;
