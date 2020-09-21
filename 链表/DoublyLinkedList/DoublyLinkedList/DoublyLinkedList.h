@@ -70,6 +70,7 @@ void DLList<T>::addToTail(const T& el)
 		head = tail;
 }
 
+//删除时需考虑删除后链表是否为空
 template <typename T>
 T DLList<T>::deleteFromHead()
 {
