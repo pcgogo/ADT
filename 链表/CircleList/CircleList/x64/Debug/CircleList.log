@@ -1,2 +1,14 @@
 ﻿  main.cpp
+D:\cpp_study\ADT\链表\CircleList\CircleList\CircleList.h(137,9): warning C4553: “==”: 未使用表达式结果；是否打算使用“=”?
+D:\cpp_study\ADT\链表\CircleList\CircleList\CircleList.h(131): message : 在编译 类 模板 成员函数“void CircleList<int>::deleteNode(const T &)”时
+          with
+          [
+              T=int
+          ]
+D:\cpp_study\ADT\链表\CircleList\CircleList\main.cpp(18): message : 查看对正在编译的函数 模板 实例化“void CircleList<int>::deleteNode(const T &)”的引用
+          with
+          [
+              T=int
+          ]
+D:\cpp_study\ADT\链表\CircleList\CircleList\main.cpp(14): message : 查看对正在编译的 类 模板 实例化“CircleList<int>”的引用
   CircleList.vcxproj -> D:\cpp_study\ADT\链表\CircleList\x64\Debug\CircleList.exe

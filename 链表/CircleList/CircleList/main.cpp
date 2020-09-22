@@ -15,7 +15,7 @@ int main()
 		list.addToHead(1);
 		list.addToTail(2);
 		list.addToTail(3);
-		//list.deleteNode(2);
+		list.deleteNode(2);
 		cout << list.deleteFromHead() << endl;
 		cout << list.deleteFromTail() << endl;
 		cout << endl;

@@ -86,17 +86,18 @@ T CircleList<T>::deleteFromHead()
 {
 	if (tail == nullptr)	//当循环链表为空时
 		throw("List is Empty");
-	else if (tail == tail->next)	//当循环列表只有一个节点时
+	else if (tail == tail->next)	//只有一个节点时
 	{
 		T el = tail->info;
 		delete tail;
+		tail = nullptr;
 		return el;
 	}
 	else
 	{
 		T el = tail->next->info;
 		Node* temp = tail->next;
-		tail->next = tail->next->next;
+		tail->next = temp->next;
 		delete temp;
 		return el;
 	}
@@ -135,7 +136,7 @@ void CircleList<T>::deleteNode(const T & el)
 			delete tail;
 			tail == nullptr;
 		}
-		else if (el == tail->info) //当循环链表的最后一个节点将被删除时
+		else if (el == tail->info) //当tail指向的节点将被删除时
 		{
 			Node* temp = nullptr;
 			for (temp = tail->next; temp->next != tail; temp = temp->next);
@@ -147,8 +148,11 @@ void CircleList<T>::deleteNode(const T & el)
 			Node* temp = nullptr;
 			Node* prev = nullptr;
 			for (temp = tail->next, prev = tail; el!=temp->info && temp->next != tail; temp = temp->next, prev = prev->next);
-			prev->next = temp->next;
-			delete temp;
+			if (temp->next != tail)
+			{
+				prev->next = temp->next;
+				delete temp;
+			}
 		}
 	}
 }
